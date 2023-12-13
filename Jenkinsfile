@@ -1,4 +1,3 @@
-def gv
 pipeline {
     agent any
     parameters {
@@ -11,9 +10,7 @@ pipeline {
          stage('Init') {
             steps {
                 echo 'Init...'
-                script {
-                    gv = load "script.groovy"
-                }
+
                 // Ajoutez les commandes pour construire votre application ici
             }
         }
