@@ -1,5 +1,13 @@
 pipeline {
     agent any
+    tools {
+        yarn
+        npm
+    }
+    parameters {
+        string(name:'VERSION', defaultValue:'', description: 'Version to deploy on rpod')
+        choice(name:'VERSION', choices:['1.0.0','1.1.1','1.2.0'], description: 'Version to deploy on rpod')
+        booleanParam(name:'executeTests', defaultValue: true, description:'')
     
     stages {
         stage('Build') {
@@ -10,6 +18,11 @@ pipeline {
         }
         
         stage('Test') {
+            when {
+                expression {
+                    params.executeTests
+                }
+            }
             steps {
                 echo 'Running tests...'
                 // Ajoutez les commandes pour exécuter les tests ici
@@ -17,8 +30,14 @@ pipeline {
         }
         
         stage('Deploy') {
+             when {
+                expression {
+                    params.executeTests
+                }
+            }
             steps {
                 echo 'Deploying the application...'
+                echo 'Deploying version ${VERSION}'
                 // Ajoutez les commandes pour déployer votre application ici
             }
         }
