@@ -8,6 +8,8 @@ pipeline {
         string(name:'VERSION', defaultValue:'', description: 'Version to deploy on rpod')
         choice(name:'VERSION', choices:['1.0.0','1.1.1','1.2.0'], description: 'Version to deploy on rpod')
         booleanParam(name:'executeTests', defaultValue: true, description:'')
+
+    }
     
     stages {
         stage('Build') {
