@@ -3,54 +3,73 @@ pipeline {
     
     stages {
         stage('Build') {
+            // Étape de construction
             steps {
-                echo 'Building the application...'
-                // Ajoutez les commandes pour construire votre application ici
+                // ...
             }
         }
         
         stage('Test') {
+            // Étape de test
+            when {
+                expression {
+                    // Exécute le stage de test seulement sur les branches main, dev et qual
+                    return (env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'qual')
+                }
+            }
             steps {
-                echo 'Running tests...'
-                // Ajoutez les commandes pour exécuter les tests ici
+                // ...
             }
         }
         
         stage('Deploy') {
+            // Étape de déploiement
+            when {
+                expression {
+                    // Exécute le stage de déploiement seulement sur la branche main
+                    return (env.BRANCH_NAME == 'main')
+                }
+            }
             steps {
-                echo 'Deploying the application...'
-                // Ajoutez les commandes pour déployer votre application ici
+                // ...
             }
         }
-
+        
         stage('Release') {
+            // Étape de release
+            when {
+                expression {
+                    // Exécute le stage de release seulement sur la branche main
+                    return (env.BRANCH_NAME == 'main')
+                }
+            }
             steps {
-                echo 'Releasing the application...'
-                // Ajoutez les commandes pour effectuer la release ici
+                // ...
             }
         }
-
+        
         stage('Clean') {
+            // Étape de nettoyage
             steps {
-                echo 'Cleaning up...'
-                // Ajoutez les commandes pour nettoyer les artefacts ou effectuer d'autres opérations de nettoyage ici
+                // ...
             }
         }
     }
     
     post {
-        always {
-            emailext subject: "Pipeline Status: ${currentBuild.result}", 
-                      body: "The pipeline status is: ${currentBuild.result}", 
-                      to: "maxwell.yeou@manitowoc.com", 
-                      attachLog: true
-        }
         success {
             echo 'All stages completed successfully. Ready for the next iteration!'
         }
         
         failure {
             echo 'One or more stages failed. Please check the logs for details.'
+        }
+
+        always {
+            emailext subject: "Pipeline Status: ${currentBuild.result}", 
+                      body: "The pipeline status is: ${currentBuild.result}", 
+                      to: "destinataire@example.com", 
+                      attachLog: true
         }
     }
 }
