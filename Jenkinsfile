@@ -1,7 +1,23 @@
+def gv
 pipeline {
     agent any
+    parameters {
+        choice(name:'VERSION', choices:['1.0.0','1.1.1','1.2.0'], description: 'Version to deploy on rpod')
+        booleanParam(name:'executeTests', defaultValue: true, description:'')
+
+    }
     
     stages {
+         stage('Init') {
+            steps {
+                echo 'Init...'
+                script {
+                    gv = load "script.groovy"
+                }
+                // Ajoutez les commandes pour construire votre application ici
+            }
+        }
+        
         stage('Build') {
             steps {
                 echo 'Building the application...'
@@ -10,16 +26,22 @@ pipeline {
         }
         
         stage('Test') {
+            when {
+                expression {
+                    params.executeTests
+                }
+            }
+
             steps {
                 echo 'Running tests...'
                 // Ajoutez les commandes pour exécuter les tests ici
             }
         }
         
-        stage('Deploy') {
+        stage('Deploy') { 
             steps {
                 echo 'Deploying the application...'
-                // Ajoutez les commandes pour déployer votre application ici
+                echo "Deploying version ${params.VERSION}"
             }
         }
 
