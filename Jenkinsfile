@@ -34,7 +34,7 @@ pipeline {
             }
             steps {
                 echo 'Deploying the application...'
-                echo 'Deploying version ${params.VERSION}'
+                echo "Deploying version ${params.VERSION}"
                 // Ajoutez les commandes pour déployer votre application ici
             }
         }
