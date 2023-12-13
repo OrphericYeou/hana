@@ -31,18 +31,17 @@ pipeline {
                     params.executeTests
                 }
             }
+
             steps {
                 echo 'Running tests...'
                 // Ajoutez les commandes pour exécuter les tests ici
             }
         }
         
-        stage('Deploy') {
-            
+        stage('Deploy') { 
             steps {
                 echo 'Deploying the application...'
                 echo "Deploying version ${params.VERSION}"
-                // Ajoutez les commandes pour déployer votre application ici
             }
         }
 
