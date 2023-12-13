@@ -39,6 +39,12 @@ pipeline {
     }
     
     post {
+        always {
+            emailext subject: "Pipeline Status: ${currentBuild.result}", 
+                      body: "The pipeline status is: ${currentBuild.result}", 
+                      to: "maxwell.yeou@manitowoc.com", 
+                      attachLog: true
+        }
         success {
             echo 'All stages completed successfully. Ready for the next iteration!'
         }
