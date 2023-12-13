@@ -27,11 +27,7 @@ pipeline {
         }
         
         stage('Deploy') {
-             when {
-                expression {
-                    params.executeTests
-                }
-            }
+            
             steps {
                 echo 'Deploying the application...'
                 echo "Deploying version ${params.VERSION}"
